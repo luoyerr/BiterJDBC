@@ -2,7 +2,7 @@
 package com.biter.jdbc.utils;
 
 /**
- * <h2>这个接口是这个biter项目里获取连接字段的方法</h2>
+ * <h2>这个接口是这个biter项目里获取连接字段的方法和关闭对象连接的方法</h2>
  * <br> </br>
  * This interface is the method for getting connection fields in the biter project
  * @author 小帅
@@ -281,6 +281,14 @@ public interface GetConnectMethod {
             databaseName = jdbcUrl.substring(jdbcUrl.lastIndexOf('/') + 1);
         }
         return databaseName;
+
+    }
+
+
+    /**
+     * 关闭对象连接的方法
+     */
+    public static void close() {
 
     }
 }
