@@ -183,8 +183,19 @@ public class ConnectUtil {
                 Load files from the stream in a specified directory such as the resources/db.properties file
              */
             properties.load(new FileInputStream("resources/db.properties"));
+
+            /*
+                 driverClassName 是驱动文件
+
+                 driverClassName is the driver file
+             */
             driverClassName = properties.getProperty("driverClassName");
             String jdbcUrl = properties.getProperty("url");
+            /*
+                获取的驱动名字 如 mysql
+
+                Obtain the driver name, such as mysql
+             */
             dataDriver = GetConnectMethod.getDataDriver(jdbcUrl);
             serverName = GetConnectMethod.getServerName(jdbcUrl);
             portNumber = GetConnectMethod.getPortNumber(jdbcUrl);
