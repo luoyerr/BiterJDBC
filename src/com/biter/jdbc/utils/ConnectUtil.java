@@ -190,6 +190,11 @@ public class ConnectUtil {
                  driverClassName is the driver file
              */
             driverClassName = properties.getProperty("driverClassName");
+            /*
+                获取jdbc的url路径 如 jdbc:mysql://localhost:3306/qq_system?useUnicode=true&characterEncoding=utf-8
+
+                For the JDBC url path such as jdbc:mysql://localhost:3306/qq_system?useUnicode=true&characterEncoding=utf-8
+             */
             String jdbcUrl = properties.getProperty("url");
             /*
                 获取的驱动名字 如 mysql
@@ -197,10 +202,35 @@ public class ConnectUtil {
                 Obtain the driver name, such as mysql
              */
             dataDriver = GetConnectMethod.getDataDriver(jdbcUrl);
+            /*
+                获得服务器的名称 如 localhost
+
+                Obtain the server name, such as localhost
+             */
             serverName = GetConnectMethod.getServerName(jdbcUrl);
+            /*
+                获取服务器名称的端口号 如 post
+
+                Obtain the server name port number, such as post
+             */
             portNumber = GetConnectMethod.getPortNumber(jdbcUrl);
+            /*
+                 获取数据库的名字 如 qq_system
+
+                 Obtain the database name, such as qq_system
+             */
             databaseName = GetConnectMethod.getDatabaseName(jdbcUrl);
+            /*
+                获取数据库的输入用户名
+
+                Obtain the database input username
+             */
             userName = properties.getProperty("username");
+            /*
+                获取数据库的输入密码
+
+                Obtain the database input password
+             */
             password = properties.getProperty("password");
 
         } catch (IOException e) {
@@ -209,11 +239,36 @@ public class ConnectUtil {
     }
 
 
+    /**
+     * <h2>获取连接对象的方法</h2>
+     *
+     * 此方法可以自动判断是什么数据库，然后返回连接对象,目前只有两种数据库的连接方式,分别是mysql还有oracle
+     *
+     *<br></br>
+     * <p></p>
+     * This method can automatically determine what database is, and then return the connection object, there are only two database connection methods, respectively mysql and oracle
+     *
+     * @return conn
+     *  <br></br>
+     *  <br></br>
+     *  返回的是一个或多个连接对象 或者返回 null
+     *  <br></br>
+     *  Return one or more connection objects or return null
+     */
     public static Connection getConnection() {
+
         try {
+            /*
+                用Class获取Driver类 , 加载驱动
+
+                Use the Class to get the Driver class, load the driver
+             */
             Class.forName(driverClassName);
+
         } catch (ClassNotFoundException e) {
+
             throw new RuntimeException(e);
+
         }
 
 
@@ -228,16 +283,28 @@ public class ConnectUtil {
             If the driver is mysql, the following code will be executed
          */
         if ("mysql".equals(dataDriver)) {
-            try {
-                if (conn == null) {
 
+            try {
+
+                /*
+                    如果conn地址还有的话就不从连接池中获取连接对象
+                    如果conn地址没有了，就从连接池中获取连接对象
+
+                    If the conn address is still there, you don't get a connection object from the connection pool
+                    If the conn address is gone, the connection object is fetched from the connection pool
+                 */
+                if (conn == null) {
+                    /*
+                        尝试与数据库连接获取连接对象
+
+                        Try to connect to the database to get the connection object
+                     */
                     conn = DriverManager.getConnection("jdbc:" +
                                     dataDriver + "://" +
                                     serverName + ":" +
                                     portNumber + "/" +
                                     databaseName,
                             userName, password);
-                    conn.setCatalog(databaseName);
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
@@ -253,8 +320,23 @@ public class ConnectUtil {
          */
 
         if ("oracle".equals(dataDriver)) {
+
             try {
+
+                /*
+                    如果conn地址还有的话就不从连接池中获取连接对象
+                    如果conn地址没有了，就从连接池中获取连接对象
+
+                    If the conn address is still there, you don't get a connection object from the connection pool
+                    If the conn address is gone, the connection object is fetched from the connection pool
+                 */
+
                if (conn == null) {
+                    /*
+                        尝试与数据库连接获取连接对象
+
+                        Try to connect to the database to get the connection object
+                     */
                    conn = DriverManager.getConnection("jdbc:" +
                                    dataDriver + ":" +
                                    "thin:@//" +
@@ -262,9 +344,9 @@ public class ConnectUtil {
                                    portNumber + "/" +
                                    databaseName,
                            userName, password);
-                   conn.setCatalog(databaseName);
                }
             } catch (SQLException e) {
+
                 throw new RuntimeException(e);
             }
         }
