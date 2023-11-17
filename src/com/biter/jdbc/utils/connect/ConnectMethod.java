@@ -1,5 +1,7 @@
 
-package com.biter.jdbc.utils;
+package com.biter.jdbc.utils.connect;
+
+import java.sql.*;
 
 /**
  * <h2>这个接口是这个biter项目里获取连接字段的方法和关闭对象连接的方法</h2>
@@ -9,7 +11,7 @@ package com.biter.jdbc.utils;
  * @version 1.0
  * @date 2023/11/15 21:47
  */
-public interface GetConnectMethod {
+public interface ConnectMethod {
     /**
      *  <h2>获取数据驱动的静态接口方法</h2>
      *  Get a data-driven static interface method
@@ -286,9 +288,187 @@ public interface GetConnectMethod {
 
 
     /**
-     * 关闭对象连接的方法
+     * <h2>关闭 AutoCloseable 对象的方法</h2>
+     *
+     * 可以传多个参数 , 如 Connection , PreparedStatement , ResultSet 等一些对象的方法
+     *
+     * 案例 :
+     *  <br></br>
+     * <p></p>
+     * close() 或 close(Connection conn) 或 close(PreparedStatement pst) 或
+     * close(ResultSet rs) 或 close(Connection conn, PreparedStatement pst)
+     * close(Connection conn, PreparedStatement pst ,ResultSet rs)...
+     *
+     * <p></p>
+     * For example :
+     *  <br></br>
+     * <p></p>
+     * close() or close(Connection conn) or close(PreparedStatement pst) or
+     * close(ResultSet rs) or close(Connection conn, PreparedStatement pst) or
+     * close(Connection conn, PreparedStatement pst ,ResultSet rs)...
+     *
+     * <br></br>
+     * <p></p>
+     * The method to close the AutoCloseable object can pass multiple parameters, such as Connection, PreparedStatement, ResultSet and other object methods
+     *
+     * <p></p>
+     * @param objs  AutoCloseable 对象
+     *              <p></p>
+     *              AutoCloseable object
      */
-    public static void close() {
+    static void close(AutoCloseable ...objs) {
 
-    }
+        /*
+            循环关闭AutoCloseable对象
+
+            Loop through the Auto Closeable object
+         */
+        for (AutoCloseable obj : objs) {
+
+            /*
+                判断obj是否是Connection类型
+
+                如果是Connection就不做任何操作
+
+                如果不是Connection就关闭obj对象
+
+
+                Check whether obj is of the connection type
+
+                If it's connection, you don't do anything
+
+                If it's not a connection, you close the obj object
+
+             */
+            if (obj instanceof  Connection) {
+
+            }else {
+
+                try {
+                    /*
+                        关闭obj
+
+                        Close the obj
+                     */
+                    obj.close();
+
+                } catch (Exception e) {
+
+                    // throw error
+                    throw new RuntimeException(e);
+                }
+            }
+
+        }
+    } ;
+
+
+    /**
+     * <h2>关闭 Connection 对象的方法 </h2>
+     *
+     * 此方法传入的是 Connection 并且关闭
+     * 例如 :
+     * close(Connection conn)
+     * <p></p>
+     *This method passes Connection and closes
+     * <br></br>
+     * For example :
+     * close(Connection conn)
+     *
+     *
+     * @param conn 连接对象
+     *                    connecting object
+     */
+    static void close (Connection conn) {
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    };
+
+    /**
+     * <h2>关闭 PreparedStatement 对象的方法 </h2>
+     *
+     * 此方法传入的是 PreparedStatement 并且关闭
+     * 例如 :
+     * close(PreparedStatement pst)
+     * <p></p>
+     *This method passes PreparedStatement and closes
+     * <br></br>
+     * For example :
+     * close(PreparedStatement pst)
+     *
+     *
+     * @param pst 连接对象
+     *                    connecting object
+     */
+    static void close (PreparedStatement pst) {
+        if (pst != null) {
+            try {
+                pst.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    };
+
+
+    /**
+     * <h2>关闭 Statement 对象的方法 </h2>
+     *
+     * 此方法传入的是 Statement 并且关闭
+     * 例如 :
+     * close(Statement st)
+     * <p></p>
+     *This method passes Statement and closes
+     * <br></br>
+     * For example :
+     * close(Statement st)
+     *
+     *
+     * @param st 连接对象
+     *                    connecting object
+     */
+    static void close (Statement st) {
+        if (st != null) {
+            try {
+                st.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    };
+
+    /**
+     * <h2>关闭 ResultSet 对象的方法 </h2>
+     *
+     * 此方法传入的是 ResultSet 并且关闭
+     * 例如 :
+     * close(ResultSet rs)
+     * <p></p>
+     *This method passes ResultSet and closes
+     * <br></br>
+     * For example :
+     * close(ResultSet rs)
+     *
+     *
+     * @param rs 连接对象
+     *                    connecting object
+     */
+    static void close (ResultSet rs) {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    };
+
+
+
+
 }

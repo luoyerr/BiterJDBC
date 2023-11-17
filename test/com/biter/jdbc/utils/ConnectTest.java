@@ -1,8 +1,11 @@
 package com.biter.jdbc.utils;
 
+import com.biter.jdbc.utils.connect.ConnectMethod;
+import com.biter.jdbc.utils.connect.ConnectUtil;
 import org.junit.Test;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  * @author 小帅
@@ -18,17 +21,32 @@ public class ConnectTest {
      *
      * Test how to connect to a database
      */
+    Connection connection = null;
     @Test
     public void getConnectionTest() {
 
-        Connection connection = ConnectUtil.getConnection();
-
-        if (connection == null)
-            System.out.println("连接为空:" + null);
-        else
-            System.out.println(connection);
 
 
+
+       try {
+           connection = ConnectUtil.getConnection();
+           if (connection == null){
+               System.out.println("连接为空:" + null);
+           }else{
+               System.out.println(connection);
+           }
+       }catch (Exception e) {
+           e.printStackTrace();
+       }finally {
+           ConnectMethod.close(connection);
+       }
+
+        System.out.println(connection + " oo");
+        try {
+            System.out.println(connection.isClosed());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

@@ -14,14 +14,12 @@
  * <h3>Author Email: ly2958534395@163.com</h3>
  */
 
-package com.biter.jdbc.utils;
+package com.biter.jdbc.utils.connect;
 
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Properties;
 
 
@@ -34,7 +32,7 @@ import java.util.Properties;
  * @version 1.0
  * @date 2023/11/15 10:02
  */
-public class ConnectUtil {
+public class ConnectUtil implements ConnectMethod , Connect{
 
     /**
      *
@@ -201,25 +199,25 @@ public class ConnectUtil {
 
                 Obtain the driver name, such as mysql
              */
-            dataDriver = GetConnectMethod.getDataDriver(jdbcUrl);
+            dataDriver = ConnectMethod.getDataDriver(jdbcUrl);
             /*
                 获得服务器的名称 如 localhost
 
                 Obtain the server name, such as localhost
              */
-            serverName = GetConnectMethod.getServerName(jdbcUrl);
+            serverName = ConnectMethod.getServerName(jdbcUrl);
             /*
                 获取服务器名称的端口号 如 post
 
                 Obtain the server name port number, such as post
              */
-            portNumber = GetConnectMethod.getPortNumber(jdbcUrl);
+            portNumber = ConnectMethod.getPortNumber(jdbcUrl);
             /*
                  获取数据库的名字 如 qq_system
 
                  Obtain the database name, such as qq_system
              */
-            databaseName = GetConnectMethod.getDatabaseName(jdbcUrl);
+            databaseName = ConnectMethod.getDatabaseName(jdbcUrl);
             /*
                 获取数据库的输入用户名
 

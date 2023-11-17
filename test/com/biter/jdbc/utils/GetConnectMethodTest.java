@@ -1,5 +1,6 @@
 package com.biter.jdbc.utils;
 
+import com.biter.jdbc.utils.connect.ConnectMethod;
 import org.junit.Test;
 
 /**
@@ -20,7 +21,7 @@ public class GetConnectMethodTest {
     public void getDataDriverTest() {
         String jdbcUrl = "jdbc:oracle:thin:@//127.0.0.1:1521/OADB";
 //        String jdbcUrl = "jdbc:mysql://127.0.0.1:3306/test3";
-        String dataDriver = GetConnectMethod.getDataDriver(jdbcUrl);
+        String dataDriver = ConnectMethod.getDataDriver(jdbcUrl);
         System.out.println("MySQL dataDriver: " + dataDriver);
     }
     /**
@@ -31,7 +32,7 @@ public class GetConnectMethodTest {
 //        String jdbcUrl = "jdbc:mysql://127.0.0.1:3306/test3";
 //        String jdbcUrl = "jdbc:oracle:thin:@//127.0.0.1:1521/OADB";
         String jdbcUrl = "jdbc:oracle:thin:@//localhost:1521/OADB";
-        String databaseHost = GetConnectMethod.getServerName(jdbcUrl);
+        String databaseHost = ConnectMethod.getServerName(jdbcUrl);
         System.out.println("MySQL Database host: " + databaseHost);
     }
     /**
