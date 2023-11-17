@@ -7,6 +7,9 @@ package com.biter.jdbc.utils.updete;
  * @version 1.0
  * @date 2023/11/18 1:06
  */
-public interface Update {
 
+public interface Update {
+    void insert();
+    void delete();
+    void update();
 }
