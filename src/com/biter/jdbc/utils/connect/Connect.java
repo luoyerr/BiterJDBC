@@ -7,5 +7,6 @@ package com.biter.jdbc.utils.connect;
  * @version 1.0
  * @date 2023/11/18 1:01
  */
-public interface Connect{
+public interface Connect {
+
 }

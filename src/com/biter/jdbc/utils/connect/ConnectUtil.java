@@ -32,7 +32,7 @@ import java.util.Properties;
  * @version 1.0
  * @date 2023/11/15 10:02
  */
-public class ConnectUtil implements ConnectMethod , Connect{
+public class ConnectUtil implements Connect {
 
     /**
      *
@@ -176,11 +176,26 @@ public class ConnectUtil implements ConnectMethod , Connect{
     static {
         try {
             /*
+
+                在普通项目中这样使用 但是在web项目中就会报错
+
                 从流中加载 指定目录下的文件 如加载 resources/db.properties 文件
+
+                This is used in a normal project but will result in an error in a web project
 
                 Load files from the stream in a specified directory such as the resources/db.properties file
              */
-            properties.load(new FileInputStream("resources/db.properties"));
+           try {
+               properties.load(new FileInputStream("resources/db.properties"));
+           }catch (IOException e) {
+               /*
+                    在web项目中加载如果加载 但一定要制源配置文件才能找到
+
+                    Load in the web project if you load but be sure to make the source profile to find
+                */
+               properties.load(ConnectUtil.class.getClassLoader().getResourceAsStream("db.properties"));
+
+           }
 
             /*
                  driverClassName 是驱动文件
@@ -350,4 +365,283 @@ public class ConnectUtil implements ConnectMethod , Connect{
         }
         return conn;
     }
+
+
+
+    /**
+     * <h2>关闭 AutoCloseable 对象的方法</h2>
+     *
+     * 可以传多个参数 , 如 Connection , PreparedStatement , ResultSet 等一些对象的方法
+     * 案例 :
+     *  <br></br>
+     * <p></p>
+     * close() 或 close(Connection conn) 或 close(PreparedStatement pst) 或
+     * close(ResultSet rs) 或 close(Connection conn, PreparedStatement pst)
+     * close(Connection conn, PreparedStatement pst ,ResultSet rs)...
+     * <p></p>
+     *
+     *     关闭连接的方法
+     *     <br></br>
+     *    Connection  conn = ConnectUtil.getConnection();
+     *    <br></br>
+     *     ConnectUtil.close(conn);
+     *     <br></br>
+     *     System.out.println(connection.isClosed());
+     *     <br></br>
+     *     如果为ture 就是关闭成功 否则关闭失败
+     *
+     * <P></P>
+     * Method of closing a connection
+     *     <br></br>
+     *    Connection  conn = ConnectUtil.getConnection();
+     *    <br></br>
+     *     ConnectUtil.close(conn);
+     *     <br></br>
+     *     System.out.println(connection.isClosed());
+     *     <br></br>
+     *     If true, the shutdown succeeds. Otherwise, the shutdown fails
+     * <p></p>
+     * For example :
+     *  <br></br>
+     * <p></p>
+     * close() or close(Connection conn) or close(PreparedStatement pst) or
+     * close(ResultSet rs) or close(Connection conn, PreparedStatement pst) or
+     * close(Connection conn, PreparedStatement pst ,ResultSet rs)...
+     *
+     * <br></br>
+     * <p></p>
+     * The method to close the AutoCloseable object can pass multiple parameters, such as Connection, PreparedStatement, ResultSet and other object methods
+     *
+     * <p></p>
+     * @param objs  AutoCloseable 对象
+     *              <p></p>
+     *              AutoCloseable object
+     */
+    public static void close(AutoCloseable... objs) {
+
+        /*
+            循环关闭AutoCloseable对象
+
+            Loop through the Auto Closeable object
+         */
+        for (AutoCloseable obj : objs) {
+
+            /*
+                判断obj是否是Connection类型
+
+                如果是Connection就不做任何操作
+
+                如果不是Connection就关闭obj对象
+
+
+                Check whether obj is of the connection type
+
+                If it's connection, you don't do anything
+
+                If it's not a connection, you close the obj object
+
+             */
+            if (obj instanceof  Connection) {
+
+            }else {
+
+                try {
+                    /*
+                        关闭obj
+
+                        Close the obj
+                     */
+                    obj.close();
+
+                } catch (Exception e) {
+
+                    // throw error
+                    throw new RuntimeException(e);
+                }
+            }
+
+        }
+    } ;
+
+
+    /**
+     * <h2>关闭 Connection 对象的方法 </h2>
+     *
+     * 此方法传入的是 Connection 并且关闭
+     * 例如 :
+     * close(Connection conn)
+     * <p></p>
+     *This method passes Connection and closes
+     * <br></br>
+     * For example :
+     * close(Connection conn)
+     *     关闭连接的方法
+     *     <br></br>
+     *    Connection  conn = ConnectUtil.getConnection();
+     *    <br></br>
+     *     ConnectUtil.close(conn);
+     *     <br></br>
+     *     System.out.println(connection.isClosed());
+     *     <br></br>
+     *     如果为ture 就是关闭成功 否则关闭失败
+     *
+     * <P></P>
+     * Method of closing a connection
+     *     <br></br>
+     *    Connection  conn = ConnectUtil.getConnection();
+     *    <br></br>
+     *     ConnectUtil.close(conn);
+     *     <br></br>
+     *     System.out.println(connection.isClosed());
+     *     <br></br>
+     *     If true, the shutdown succeeds. Otherwise, the shutdown fails
+     *
+     * @param conn 连接对象
+     *                    connecting object
+     */
+    public  static void close (Connection conn) {
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    };
+
+    /**
+     * <h2>关闭 PreparedStatement 对象的方法 </h2>
+     *
+     * 此方法传入的是 PreparedStatement 并且关闭
+     * 例如 :
+     * close(PreparedStatement pst)
+     * <p></p>
+     *This method passes PreparedStatement and closes
+     * <br></br>
+     * For example :
+     * close(PreparedStatement pst)
+     *     关闭连接的方法
+     *     <br></br>
+     *    Connection  conn = ConnectUtil.getConnection();
+     *    <br></br>
+     *     ConnectUtil.close(conn);
+     *     <br></br>
+     *     System.out.println(connection.isClosed());
+     *     <br></br>
+     *     如果为ture 就是关闭成功 否则关闭失败
+     *
+     * <P></P>
+     * Method of closing a connection
+     *     <br></br>
+     *    Connection  conn = ConnectUtil.getConnection();
+     *    <br></br>
+     *     ConnectUtil.close(conn);
+     *     <br></br>
+     *     System.out.println(connection.isClosed());
+     *     <br></br>
+     *     If true, the shutdown succeeds. Otherwise, the shutdown fails
+     *
+     * @param pst 连接对象
+     *                    connecting object
+     */
+    public static void close (PreparedStatement pst) {
+        if (pst != null) {
+            try {
+                pst.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    };
+
+
+    /**
+     * <h2>关闭 Statement 对象的方法 </h2>
+     *
+     * 此方法传入的是 Statement 并且关闭
+     * 例如 :
+     * close(Statement st)
+     * <p></p>
+     *This method passes Statement and closes
+     * <br></br>
+     * For example :
+     * close(Statement st)
+     *
+     *     关闭连接的方法
+     *     <br></br>
+     *    Connection  conn = ConnectUtil.getConnection();
+     *    <br></br>
+     *     ConnectUtil.close(conn);
+     *     <br></br>
+     *     System.out.println(connection.isClosed());
+     *     <br></br>
+     *     如果为ture 就是关闭成功 否则关闭失败
+     *
+     * <P></P>
+     * Method of closing a connection
+     *     <br></br>
+     *    Connection  conn = ConnectUtil.getConnection();
+     *    <br></br>
+     *     ConnectUtil.close(conn);
+     *     <br></br>
+     *     System.out.println(connection.isClosed());
+     *     <br></br>
+     *     If true, the shutdown succeeds. Otherwise, the shutdown fails
+     * @param st 连接对象
+     *                    connecting object
+     */
+    public static void close (Statement st) {
+        if (st != null) {
+            try {
+                st.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    };
+
+    /**
+     * <h2>关闭 ResultSet 对象的方法 </h2>
+     *
+     * 此方法传入的是 ResultSet 并且关闭
+     * 例如 :
+     * close(ResultSet rs)
+     * <p></p>
+     *This method passes ResultSet and closes
+     * <br></br>
+     * For example :
+     * close(ResultSet rs)
+     *     关闭连接的方法
+     *     <br></br>
+     *    Connection  conn = ConnectUtil.getConnection();
+     *    <br></br>
+     *     ConnectUtil.close(conn);
+     *     <br></br>
+     *     System.out.println(connection.isClosed());
+     *     <br></br>
+     *     如果为ture 就是关闭成功 否则关闭失败
+     *
+     * <P></P>
+     * Method of closing a connection
+     *     <br></br>
+     *    Connection  conn = ConnectUtil.getConnection();
+     *    <br></br>
+     *     ConnectUtil.close(conn);
+     *     <br></br>
+     *     System.out.println(connection.isClosed());
+     *     <br></br>
+     *     If true, the shutdown succeeds. Otherwise, the shutdown fails
+     *
+     * @param rs 连接对象
+     *                    connecting object
+     */
+    public  static void close (ResultSet rs) {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    };
 }

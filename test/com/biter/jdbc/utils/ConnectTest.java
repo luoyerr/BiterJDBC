@@ -38,7 +38,7 @@ public class ConnectTest {
        }catch (Exception e) {
            e.printStackTrace();
        }finally {
-           ConnectMethod.close(connection);
+           ConnectUtil.close(connection);
        }
 
         System.out.println(connection + " oo");
@@ -49,5 +49,18 @@ public class ConnectTest {
         }
     }
 
+    @Test
+    public void test(){
+        Connection connection1 = ConnectUtil.getConnection();
+        System.out.println(connection1);
+        ConnectUtil.close(connection1);
+        try {
+            boolean closed = connection1.isClosed();
+            System.out.println(closed);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 
 }
