@@ -11,7 +11,7 @@ import java.sql.ResultSet;
  * @version 1.0
  * @date 2023/11/25 0:10
  */
-public  class  UpdateUtil implements Execute {
+public  class  ExecuteUpdate implements Execute {
 
 
     /**

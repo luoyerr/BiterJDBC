@@ -1,7 +1,7 @@
 package com.biter.jdbc.utils;
 
-import com.biter.jdbc.utils.connect.ConnectMethod;
-import com.biter.jdbc.utils.connect.ConnectUtil;
+
+import com.biter.jdbc.utils.connect.ExecuteConnect;
 import org.junit.Test;
 
 import java.sql.Connection;
@@ -29,7 +29,7 @@ public class ConnectTest {
 
 
        try {
-           connection = ConnectUtil.getConnection();
+           connection = ExecuteConnect.getConnection();
            if (connection == null){
                System.out.println("连接为空:" + null);
            }else{
@@ -38,7 +38,7 @@ public class ConnectTest {
        }catch (Exception e) {
            e.printStackTrace();
        }finally {
-           ConnectUtil.close(connection);
+           ExecuteConnect.close(connection);
        }
 
         System.out.println(connection + " oo");
@@ -51,9 +51,9 @@ public class ConnectTest {
 
     @Test
     public void test(){
-        Connection connection1 = ConnectUtil.getConnection();
+        Connection connection1 = ExecuteConnect.getConnection();
         System.out.println(connection1);
-        ConnectUtil.close(connection1);
+        ExecuteConnect.close(connection1);
         try {
             boolean closed = connection1.isClosed();
             System.out.println(closed);

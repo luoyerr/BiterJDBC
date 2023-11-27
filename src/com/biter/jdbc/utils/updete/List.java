@@ -6,5 +6,5 @@ package com.biter.jdbc.utils.updete;
  * @version 1.0
  * @date 2023/11/25 14:57
  */
-public interface List {
+public interface List{
 }
