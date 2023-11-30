@@ -1,6 +1,7 @@
 package com.biter.jdbc.utils.updete;
 
-import com.biter.jdbc.utils.connect.ConnectUtil;
+
+import com.biter.jdbc.utils.connect.ExecuteConnect;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -84,7 +85,7 @@ public  class  ExecuteUpdate implements Execute {
 
             Gets the connection object passed to conn
          */
-        conn = ConnectUtil.getConnection();
+        conn = ExecuteConnect.getConnection();
         /*
             定义一个 int 类型的值存执行结果返回的记录条数 如果为0 执行就失败
 
@@ -142,7 +143,7 @@ public  class  ExecuteUpdate implements Execute {
 
                 This line of code means to close the database connection by calling the close method of the ConnectUtil class.
              */
-            ConnectUtil.close();
+            ExecuteConnect.close();
         }
         /*
          返回成功的结果
@@ -245,7 +246,7 @@ public  class  ExecuteUpdate implements Execute {
 
                 This line of code means to close the database connection by calling the close method of the ConnectUtil class.
              */
-            ConnectUtil.close();
+            ExecuteConnect.close();
         }
         /*
          返回成功的结果

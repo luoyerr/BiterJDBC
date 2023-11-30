@@ -1,0 +1,30 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="biterJdbc1.0.0">
+    <output-path>$PROJECT_DIR$/out/artifacts/biterJdbc1_0_0</output-path>
+    <root id="archive" name="biterJdbc1.0.0.jar">
+      <element id="directory" name="com.biter.jdbc">
+        <element id="directory" name="utils">
+          <element id="directory" name="connect">
+            <element id="file-copy" path="$PROJECT_DIR$/out/production/BiterJDBC/com/biter/jdbc/utils/connect/Connect.class" />
+            <element id="file-copy" path="$PROJECT_DIR$/out/production/BiterJDBC/com/biter/jdbc/utils/connect/ConnectMethod.class" />
+            <element id="file-copy" path="$PROJECT_DIR$/out/production/BiterJDBC/com/biter/jdbc/utils/connect/ExecuteConnect.class" />
+          </element>
+          <element id="directory" name="orther">
+            <element id="file-copy" path="$PROJECT_DIR$/out/production/BiterJDBC/com/biter/jdbc/utils/orther/DateUtil.class" />
+            <element id="file-copy" path="$PROJECT_DIR$/out/production/BiterJDBC/com/biter/jdbc/utils/orther/RandomUtil.class" />
+            <element id="file-copy" path="$PROJECT_DIR$/out/production/BiterJDBC/com/biter/jdbc/utils/orther/StringUtil.class" />
+          </element>
+          <element id="directory" name="update">
+            <element id="file-copy" path="$PROJECT_DIR$/out/production/BiterJDBC/com/biter/jdbc/utils/updete/Execute.class" />
+            <element id="file-copy" path="$PROJECT_DIR$/out/production/BiterJDBC/com/biter/jdbc/utils/updete/ExecuteQuery.class" />
+            <element id="file-copy" path="$PROJECT_DIR$/out/production/BiterJDBC/com/biter/jdbc/utils/updete/ExecuteUpdate.class" />
+            <element id="file-copy" path="$PROJECT_DIR$/out/production/BiterJDBC/com/biter/jdbc/utils/updete/List.class" />
+          </element>
+        </element>
+        <element id="directory" name="pool">
+          <element id="file-copy" path="$PROJECT_DIR$/out/production/BiterJDBC/com/biter/jdbc/pool/Pool.class" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
